@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#00000000">
+    <!--top-->
+    <FrameLayout
+        android:id="@+id/flTitle"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#00000000">
+
+        <TextView
+            android:id="@+id/tvRouterDialog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/tv_common_dialog_top"/>
+        <!--img-->
+        <LinearLayout
+            android:id="@+id/llRouterImg"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:background="#00000000"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imgTitle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/icon"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="31dp"
+            android:background="#00000000"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+        </RelativeLayout>
+
+    </FrameLayout>
+
+<View
+    android:id="@+id/viewLong"
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:layout_below="@+id/llRouterName"
+    android:background="@color/grayE"/>
+    <!--router name-->
+    <LinearLayout
+        android:id="@+id/llRouterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/flTitle"
+        android:paddingBottom="40dp"
+        android:paddingTop="30dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:text="名称:"/>
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:singleLine="true"
+            android:background="@drawable/selector_border"/>
+    </LinearLayout>
+
+    <!--cancel confirm-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewLong"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnCancle"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/selector_btn_common_cancle"
+            android:text="取消"
+            style="?android:attr/borderlessButtonStyle"/>
+       <View
+            android:layout_width="1dp"
+            android:layout_height="45dp"
+            android:background="@color/grayE"/>
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/selector_btn_common_confirm"
+            android:text="确定"
+            style="?android:attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

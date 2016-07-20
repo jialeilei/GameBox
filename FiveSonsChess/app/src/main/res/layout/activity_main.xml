@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     android:background="@color/brown"
+    tools:context="com.lei.fivesonschess.MainActivity">
+
+    <include
+        android:id="@+id/titleBar"
+        layout="@layout/bar_main_title"/>
+
+    <RelativeLayout
+        android:id="@+id/rlContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleBar"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp">
+
+        <LinearLayout
+            android:id="@+id/llWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imgWhite"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_white_chess"/>
+            <TextView
+                android:id="@+id/tvWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:text="白方"/>
+            <TextView
+                android:id="@+id/tvWhiteResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/llWhite"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/imgBlack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_black_chess"/>
+            <TextView
+                android:id="@+id/tvBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="20sp"
+                android:text="黑方"/>
+            <TextView
+                android:id="@+id/tvBlackResult"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/llBlack"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnAgain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="再来一局"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--chessBoard-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+        <com.lei.fivesonschess.ChessBoard
+            android:id="@+id/keyBoard"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@color/grayE"/>
+    </LinearLayout>
+
+</RelativeLayout>
