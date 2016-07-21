@@ -23,6 +23,7 @@ public class ChessBoard extends View {
     private boolean circleKey=false;//第一次画棋盘时不画棋子
     private boolean colorWhite=true;
     private boolean victor =false;//是否有人获胜
+    private int width;//边界
     private int whiteCountX=0,blackCountX=0,whiteCountY=0,blackCountY=0;
     private int downWhiteCountSlantToRightBottom =0, downBlackCountSlantToRightBottom =0,upBlackCountSlantToRightBottom=0,upWhiteCountSlantToRightBottom=0;
     private int downWhiteCountSlantToLeftBottom =0, downBlackCountSlantToLeftBottom =0,upBlackCountSlantToLeftBottom=0,upWhiteCountSlantToLeftBottom=0;
@@ -37,6 +38,16 @@ public class ChessBoard extends View {
     public ChessBoard(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
+    }
+
+    public void setBoardSize(int size){
+        pointSize=size;
+        pointArray=new int[pointSize][pointSize];
+        maxX= ((int) Math.floor(width / pointSize));
+        xOffset=(width-pointSize*maxX+maxX)/2;  //boarder
+        radius=maxX*0.4f;
+        distance=maxX/2;
+        resetBoard();
     }
 
     public void resetBoard(){
@@ -61,6 +72,7 @@ public class ChessBoard extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        width=w;
         maxX= ((int) Math.floor(w / pointSize));
         xOffset=(w-pointSize*maxX+maxX)/2;  //boarder
         radius=maxX*0.4f;

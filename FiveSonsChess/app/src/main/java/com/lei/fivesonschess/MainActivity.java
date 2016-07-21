@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     TextView tvWhiteResult,tvBlackResult,tvWhite,tvBlack;
     Button btnAgain;
     ImageView imgSetting;
+    Spinner spinnerSize;
+    private static String TAG="MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         tvBlackResult=(TextView)findViewById(R.id.tvBlackResult);
         tvWhite=(TextView)findViewById(R.id.tvWhite);
         tvBlack=(TextView)findViewById(R.id.tvBlack);
+
+
+
         chessBoard=(ChessBoard)findViewById(R.id.keyBoard);
         chessBoard.setEnabled(false);
         chessBoard.setFocusable(false);
@@ -72,19 +79,22 @@ public class MainActivity extends Activity implements View.OnClickListener{
         Window window = dialog.getWindow();
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
-        final EditText etName = (EditText) window.findViewById(R.id.etName);
         //点击事件的注册
+        spinnerSize=(Spinner)window.findViewById(R.id.spinnerSize);
         Button btnConfirm = (Button) window.findViewById(R.id.btnConfirm);
-        btnConfirm.setText("添加");
+        //btnConfirm.setText("添加");
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                chessBoard.setBoardSize(spinnerSize.getSelectedItemPosition() + 10);
+                dialog.dismiss();
             }
         });
         Button btnCancel = (Button) window.findViewById(R.id.btnCancle);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
             }
         });
     }
@@ -94,10 +104,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.btnAgain:
                 chessBoard.resetBoard();
-                tvWhite.setText( 0 + "手");
+                tvWhite.setText(0 + "手");
                 tvBlack.setText(0 + "手");
                 tvBlackResult.setText("");
                 tvWhiteResult.setText("");
+
+
                 break;
             case R.id.imgSetting:
                 showDialog();

@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">五子棋</string>
+    <string-array name="spinner">
+        <item>10*10</item>
+        <item>11*11</item>
+        <item>12*12</item>
+        <item>13*13</item>
+        <item>14*14</item>
+        <item>15*15</item>
+    </string-array>
+
 </resources>
