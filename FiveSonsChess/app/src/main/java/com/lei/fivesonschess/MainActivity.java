@@ -4,24 +4,24 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener{
+    private static String TAG="MainActivity";
     ChessBoard chessBoard;
-    TextView tvWhiteResult,tvBlackResult,tvWhite,tvBlack;
-    Button btnAgain;
+    TextView tvWhiteResult,tvBlackResult,tvWhite,tvBlack,tvTitle;
+    Button btnAgain,btnChangeModel;
     ImageView imgSetting;
     Spinner spinnerSize;
-    private static String TAG="MainActivity";
+    private int gameModel =0; // *person with person:0  *person with machine:1
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
         btnAgain.setOnClickListener(this);
         imgSetting=(ImageView)findViewById(R.id.imgSetting);
         imgSetting.setOnClickListener(this);
+        btnChangeModel=(Button)findViewById(R.id.btnChangeModel);
+        btnChangeModel.setOnClickListener(this);
         tvWhiteResult=(TextView)findViewById(R.id.tvWhiteResult);
         tvBlackResult=(TextView)findViewById(R.id.tvBlackResult);
         tvWhite=(TextView)findViewById(R.id.tvWhite);
         tvBlack=(TextView)findViewById(R.id.tvBlack);
+        tvTitle=(TextView)findViewById(R.id.tvTitle);
 
 
 
@@ -108,11 +111,19 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 tvBlack.setText(0 + "手");
                 tvBlackResult.setText("");
                 tvWhiteResult.setText("");
-
-
                 break;
             case R.id.imgSetting:
                 showDialog();
+                break;
+            case R.id.btnChangeModel:
+                if (gameModel ==0){
+                    gameModel=1;
+                    tvTitle.setText("人机对战");
+                }else {
+                    gameModel=0;
+                    tvTitle.setText("人人对战");
+                }
+                chessBoard.setGameModel(gameModel);
                 break;
             default:
                 break;

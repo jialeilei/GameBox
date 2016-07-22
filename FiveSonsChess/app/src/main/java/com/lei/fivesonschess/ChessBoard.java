@@ -28,6 +28,7 @@ public class ChessBoard extends View {
     private int downWhiteCountSlantToRightBottom =0, downBlackCountSlantToRightBottom =0,upBlackCountSlantToRightBottom=0,upWhiteCountSlantToRightBottom=0;
     private int downWhiteCountSlantToLeftBottom =0, downBlackCountSlantToLeftBottom =0,upBlackCountSlantToLeftBottom=0,upWhiteCountSlantToLeftBottom=0;
     private int whiteNumber=0,blackNumber=0;
+    private int gameModel=0;
     private OnChessBoardListener mOnChessBoardListener;
 
 
@@ -40,6 +41,10 @@ public class ChessBoard extends View {
         setLayerType(LAYER_TYPE_SOFTWARE, null);
     }
 
+    public void setGameModel(int num){
+        gameModel=num;
+    }
+
     public void setBoardSize(int size){
         pointSize=size;
         pointArray=new int[pointSize][pointSize];
@@ -49,6 +54,8 @@ public class ChessBoard extends View {
         distance=maxX/2;
         resetBoard();
     }
+
+
 
     public void resetBoard(){
         circleKey=false;//第一次画棋盘时不画棋子
@@ -345,7 +352,7 @@ public class ChessBoard extends View {
     private void findSlantVictor(){
         for (int down=4;down<pointSize;down++){
             for (int i=0;i<=down;i++){
-                slideToRightBottom(down,i);//slide from leftTop to rightBottom
+                slideToRightBottom(down, i);//slide from leftTop to rightBottom
                 slideToLeftBottom(down, i);//slide from rightTop to leftBottom
             }
         }
@@ -365,7 +372,11 @@ public class ChessBoard extends View {
             case 1://ACTION_UP
 
                 if (!victor){
-                    getPosition();//找到坐标并进行绘制
+                    if (gameModel==0){
+                        getPosition();//找到坐标并进行绘制
+                    }else {
+
+                    }
                 }
                 //Log.i(TAG, "up  x: "+x+" y: "+y);
                 break;

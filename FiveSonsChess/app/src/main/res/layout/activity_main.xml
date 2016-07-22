@@ -90,6 +90,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="再来一局"/>
+            <Button
+                android:id="@+id/btnChangeModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="切换模式"/>
         </LinearLayout>
 
     </RelativeLayout>
