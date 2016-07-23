@@ -17,19 +17,22 @@ public class ChessBoard extends View {
     private static String TAG="ChessBoard";
     private int maxX,xOffset,distance;
     private int pointSize=13;
-    private int[][] pointArray=new int[pointSize][pointSize];   // 1为白方，2为黑方,储存着棋盘上的所有点
+    private int[][] allPointArray =new int[pointSize][pointSize];   // 1为白方，2为黑方,储存着棋盘上的所有点
     private float radius;//半径
     private float positionX,positionY;
     private boolean circleKey=false;//第一次画棋盘时不画棋子
     private boolean colorWhite=true;
     private boolean victor =false;//是否有人获胜
     private int width;//边界
+
+    private int gameModel=0;
+    private int point[]={0,0};
+    private OnChessBoardListener mOnChessBoardListener;
+    //count
     private int whiteCountX=0,blackCountX=0,whiteCountY=0,blackCountY=0;
     private int downWhiteCountSlantToRightBottom =0, downBlackCountSlantToRightBottom =0,upBlackCountSlantToRightBottom=0,upWhiteCountSlantToRightBottom=0;
     private int downWhiteCountSlantToLeftBottom =0, downBlackCountSlantToLeftBottom =0,upBlackCountSlantToLeftBottom=0,upWhiteCountSlantToLeftBottom=0;
     private int whiteNumber=0,blackNumber=0;
-    private int gameModel=0;
-    private OnChessBoardListener mOnChessBoardListener;
 
 
     public ChessBoard(Context context) {
@@ -47,7 +50,7 @@ public class ChessBoard extends View {
 
     public void setBoardSize(int size){
         pointSize=size;
-        pointArray=new int[pointSize][pointSize];
+        allPointArray =new int[pointSize][pointSize];
         maxX= ((int) Math.floor(width / pointSize));
         xOffset=(width-pointSize*maxX+maxX)/2;  //boarder
         radius=maxX*0.4f;
@@ -56,16 +59,13 @@ public class ChessBoard extends View {
     }
 
 
-
     public void resetBoard(){
         circleKey=false;//第一次画棋盘时不画棋子
         colorWhite=true;
         victor =false;//是否有人获胜
-        whiteCountX=0;blackCountX=0;whiteCountY=0;blackCountY=0;
-        downWhiteCountSlantToRightBottom =0;downBlackCountSlantToRightBottom =0;upBlackCountSlantToRightBottom=0;upWhiteCountSlantToRightBottom=0;
-        downWhiteCountSlantToLeftBottom =0;downBlackCountSlantToLeftBottom =0;upBlackCountSlantToLeftBottom=0;upWhiteCountSlantToLeftBottom=0;
         whiteNumber=0;
         blackNumber=0;
+        clearChessCount();
         resetData();
         invalidate();
     }
@@ -116,10 +116,10 @@ public class ChessBoard extends View {
 
         for (int i=0;i<pointSize;i++){//扫描数组  进行画圆
             for (int j=0;j<pointSize;j++){
-                if (pointArray[i][j]>0){
+                if (allPointArray[i][j]>0){
                     positionX=xOffset+maxX*i;
                     positionY=xOffset+maxX*j;
-                    if (pointArray[i][j]==1){
+                    if (allPointArray[i][j]==1){
                         thumbPaint.setColor(Color.WHITE);
                     }else {
                         thumbPaint.setColor(Color.BLACK);
@@ -133,54 +133,39 @@ public class ChessBoard extends View {
     private void resetData(){
         for (int i=0;i<pointSize;i++){
             for (int j=0;j<pointSize;j++){
-                pointArray[i][j]=0;
+                allPointArray[i][j]=0;
             }
         }
     }
 
+    private void clearChessCount(){
+        whiteCountX=0;blackCountX=0;whiteCountY=0;blackCountY=0;
+        downWhiteCountSlantToRightBottom =0;downBlackCountSlantToRightBottom =0;upBlackCountSlantToRightBottom=0;upWhiteCountSlantToRightBottom=0;
+        downWhiteCountSlantToLeftBottom =0;downBlackCountSlantToLeftBottom =0;upBlackCountSlantToLeftBottom=0;upWhiteCountSlantToLeftBottom=0;
+    }
+
     private void getPosition(){
         int distanceX;
-        int array[]={0,0};
+        point[0]=0;
+        point[1]=1;
         for (int i=0;i<pointSize;i++){ //寻找最近Y坐标
             distanceX=xOffset+maxX*i;
             if (Math.abs(distanceX-positionX) <= distance){
                 positionX=distanceX;
-                array[0]=i;
+                point[0]=i;
             }
         }
         for (int h=0;h<pointSize;h++){ //寻找最近X坐标
             distanceX=xOffset+maxX*h;
             if (Math.abs(distanceX-positionY) <= distance){
                 positionY=distanceX;
-                array[1]=h;
+                point[1]=h;
             }
-        }
-        if (pointArray[array[0]][array[1]] > 0){
-            Log.i(TAG, "circle have been exist "+pointArray[array[0]][array[1]]);
-        }else {
-            if (colorWhite){
-                pointArray[array[0]][array[1]]=1;
-                colorWhite=!colorWhite;
-                whiteNumber++;
-                if (mOnChessBoardListener!=null){
-                    mOnChessBoardListener.number(whiteNumber,blackNumber);
-                }
-            }else {
-                pointArray[array[0]][array[1]]=2;
-                colorWhite=!colorWhite;
-                blackNumber++;
-                if (mOnChessBoardListener!=null){
-                    mOnChessBoardListener.number(whiteNumber,blackNumber);
-                }
-            }
-            invalidate();
-            findXYVictor();
-            findSlantVictor();
         }
     }
 
     private void getXYWhite(int i,int j){
-        if (pointArray[i][j]==1){
+        if (allPointArray[i][j]==1){
             whiteCountY++;
             if (whiteCountY >= 5){
                 victor =true;
@@ -193,7 +178,7 @@ public class ChessBoard extends View {
             whiteCountY=0;
         }
 
-        if (pointArray[j][i]==1){
+        if (allPointArray[j][i]==1){
             whiteCountX++;
             if (whiteCountX==5){
                 victor =true;
@@ -208,7 +193,7 @@ public class ChessBoard extends View {
     }
 
     private void getXYBlack(int i,int j){
-        if (pointArray[i][j]==2){
+        if (allPointArray[i][j]==2){
             blackCountY++;
             if (blackCountY==5){
                 victor =true;
@@ -221,7 +206,7 @@ public class ChessBoard extends View {
             blackCountY=0;
         }
 
-        if (pointArray[j][i]==2){
+        if (allPointArray[j][i]==2){
             blackCountX++;
             if (blackCountX==5){
                 victor =true;
@@ -237,7 +222,7 @@ public class ChessBoard extends View {
 
     private void slideToRightBottom(int down,int i){
         //up
-        if (pointArray[pointSize-1-down+i][i]==1){
+        if (allPointArray[pointSize-1-down+i][i]==1){
             upWhiteCountSlantToRightBottom++;
             if (upWhiteCountSlantToRightBottom >=5){
                 victor=true;
@@ -249,7 +234,7 @@ public class ChessBoard extends View {
             upWhiteCountSlantToRightBottom =0;
         }
 
-        if (pointArray[pointSize-1-down+i][i]==2){
+        if (allPointArray[pointSize-1-down+i][i]==2){
             upBlackCountSlantToRightBottom++;
             if (upBlackCountSlantToRightBottom >=5){
                 victor=true;
@@ -261,7 +246,7 @@ public class ChessBoard extends View {
             upBlackCountSlantToRightBottom =0;
         }
         //down
-        if (pointArray[i][pointSize-1-down+i]==1){
+        if (allPointArray[i][pointSize-1-down+i]==1){
             downWhiteCountSlantToRightBottom++;
             if (downWhiteCountSlantToRightBottom >=5){
                 victor=true;
@@ -273,7 +258,7 @@ public class ChessBoard extends View {
             downWhiteCountSlantToRightBottom =0;
         }
 
-        if (pointArray[i][pointSize-1-down+i]==2){
+        if (allPointArray[i][pointSize-1-down+i]==2){
             downBlackCountSlantToRightBottom++;
             if (downBlackCountSlantToRightBottom >=5){
                 victor=true;
@@ -289,7 +274,7 @@ public class ChessBoard extends View {
 
     private void slideToLeftBottom(int down,int i){
         //up
-        if (pointArray[down-i][i]==1){
+        if (allPointArray[down-i][i]==1){
             upWhiteCountSlantToLeftBottom++;
             if (upWhiteCountSlantToLeftBottom >=5){
                 victor=true;
@@ -301,7 +286,7 @@ public class ChessBoard extends View {
             upWhiteCountSlantToLeftBottom =0;
         }
 
-        if (pointArray[down-i][i]==2){
+        if (allPointArray[down-i][i]==2){
             upBlackCountSlantToLeftBottom++;
             if (upBlackCountSlantToLeftBottom >=5){
                 victor=true;
@@ -314,7 +299,7 @@ public class ChessBoard extends View {
         }
 
         //down
-        if (pointArray[pointSize-1-i][pointSize-1-down+i]==1){
+        if (allPointArray[pointSize-1-i][pointSize-1-down+i]==1){
             downWhiteCountSlantToLeftBottom++;
             if (downWhiteCountSlantToLeftBottom >=5){
                 victor=true;
@@ -326,7 +311,7 @@ public class ChessBoard extends View {
             downWhiteCountSlantToLeftBottom =0;
         }
 
-        if (pointArray[pointSize-1-i][pointSize-1-down+i]==2){
+        if (allPointArray[pointSize-1-i][pointSize-1-down+i]==2){
             downBlackCountSlantToLeftBottom++;
             if (downBlackCountSlantToLeftBottom >=5){
                 victor=true;
@@ -342,9 +327,10 @@ public class ChessBoard extends View {
 
     private void findXYVictor(){
         for (int i=0;i<pointSize;i++){
+            clearChessCount();
             for (int j=0;j<pointSize;j++){
-                getXYWhite(i,j);
-                getXYBlack(i,j);
+                getXYWhite(i, j);
+                getXYBlack(i, j);
             }
         }
     }
@@ -356,6 +342,22 @@ public class ChessBoard extends View {
                 slideToLeftBottom(down, i);//slide from rightTop to leftBottom
             }
         }
+    }
+
+    private void findVictor(){
+        findXYVictor();
+        findSlantVictor();
+    }
+
+    private void intelligence(){
+        allPointArray[point[0]][point[1]]=2;
+        colorWhite=!colorWhite;
+        blackNumber++;
+        if (mOnChessBoardListener!=null){
+            mOnChessBoardListener.number(whiteNumber,blackNumber);
+        }
+        invalidate();
+        findVictor();
     }
 
     @Override
@@ -370,15 +372,48 @@ public class ChessBoard extends View {
 
                 break;
             case 1://ACTION_UP
-
+                clearChessCount();
                 if (!victor){
-                    if (gameModel==0){
                         getPosition();//找到坐标并进行绘制
-                    }else {
+                        if (allPointArray[point[0]][point[1]] > 0){
+                            Log.i(TAG, "circle have been exist "+ allPointArray[point[0]][point[1]]);
+                        }else {
+                            if (gameModel==0){ //person with person
+                                if (colorWhite){
+                                    allPointArray[point[0]][point[1]]=1;
+                                    colorWhite=!colorWhite;
+                                    whiteNumber++;
+                                    if (mOnChessBoardListener!=null){
+                                        mOnChessBoardListener.number(whiteNumber,blackNumber);
+                                    }
+                                }else {
+                                    allPointArray[point[0]][point[1]]=2;
+                                    colorWhite=!colorWhite;
+                                    blackNumber++;
+                                    if (mOnChessBoardListener!=null){
+                                        mOnChessBoardListener.number(whiteNumber,blackNumber);
+                                    }
+                                }
+                                invalidate();
+                                findVictor();
+                            }else if (gameModel==1){ //person with machine
 
-                    }
+                                if (colorWhite){
+                                    allPointArray[point[0]][point[1]]=1;
+                                    colorWhite=!colorWhite;
+                                    whiteNumber++;
+                                    if (mOnChessBoardListener!=null){
+                                        mOnChessBoardListener.number(whiteNumber,blackNumber);
+                                    }
+                                    invalidate();
+                                    findVictor();
+                                }
+                                intelligence();
+                            }
+                        }
+
                 }
-                //Log.i(TAG, "up  x: "+x+" y: "+y);
+
                 break;
             case 2://ACTION_MOVE
 
