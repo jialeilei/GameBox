@@ -337,6 +337,7 @@ public class ChessBoard extends View {
 
     private void findSlantVictor(){
         for (int down=4;down<pointSize;down++){
+            clearChessCount();
             for (int i=0;i<=down;i++){
                 slideToRightBottom(down, i);//slide from leftTop to rightBottom
                 slideToLeftBottom(down, i);//slide from rightTop to leftBottom
