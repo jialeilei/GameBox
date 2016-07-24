@@ -517,11 +517,11 @@ public class ChessBoard extends View {
                     intelligenceGetScore();
                     if (blackBigger<blackResultScore){
                         blackBigger=blackResultScore;
-                    }
-                    if (blackBigger>800000&&whiteBigger<800000){
-                        attack=true;
                         attackPoint[0]=i;
                         attackPoint[1]=j;
+                    }
+                    if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
+                        attack=true;
                     }
                     allPointArray[i][j]=0;
                     clearChessCount();
@@ -539,11 +539,11 @@ public class ChessBoard extends View {
                     intelligenceGetScore();
                     if (blackBigger<blackResultScore){
                         blackBigger=blackResultScore;
-                    }
-                    if (blackBigger>800000&&whiteBigger<800000){
-                        attack=true;
                         attackPoint[0]=j;
                         attackPoint[1]=i;
+                    }
+                    if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
+                        attack=true;
                     }
                     allPointArray[j][i]=0;
                     clearChessCount();
