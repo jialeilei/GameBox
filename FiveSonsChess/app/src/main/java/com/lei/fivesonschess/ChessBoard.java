@@ -24,21 +24,21 @@ public class ChessBoard extends View {
     private boolean colorWhite=true;
     private boolean victor =false;//是否有人获胜
     private int width;//边界
-
     private int gameModel=0;
     private int point[]={0,0};
     private OnChessBoardListener mOnChessBoardListener;
-    private int whiteBetter,blackBetter;
+    //private int whiteBetter,blackBetter;
     //count
     private int whiteCountX=0,blackCountX=0,whiteCountY=0,blackCountY=0;
     private int downWhiteCountSlantToRightBottom =0, downBlackCountSlantToRightBottom =0,upBlackCountSlantToRightBottom=0,upWhiteCountSlantToRightBottom=0;
     private int downWhiteCountSlantToLeftBottom =0, downBlackCountSlantToLeftBottom =0,upBlackCountSlantToLeftBottom=0,upWhiteCountSlantToLeftBottom=0;
     private int whiteNumber=0,blackNumber=0;   //步数
     //artificial intelligence
-    private int scoreTable[]={7,35,800,15000,800000,0};
+    private int scoreTable[]={7,35,800,15000,800000,5000000,0};
     private int whiteResultScore=0,blackResultScore=0, fiveArrayWhiteCount =0, fiveArrayBlackCount =0;
-    private int testPoint[]={0,0};
-    private int small=800000;
+    private int defensePoint[]={0,0},attackPoint[]={0,0};
+    private int whiteBigger =0,blackBigger=0;
+    private boolean attack=false;
 
 
     public ChessBoard(Context context) {
@@ -337,57 +337,47 @@ public class ChessBoard extends View {
 
         for (int c=0;c<5;c++){
             //up
-            if (allPointArray[pointSize-1-down+i][i+c]==1){
-                upWhiteCountSlantToRightBottom++;
-                if (upWhiteCountSlantToRightBottom >=5){
-                    victor=true;
-                    if (mOnChessBoardListener!=null){
-                        mOnChessBoardListener.whiteVictor();
-                    }
-                }
-            }else {
-                upWhiteCountSlantToRightBottom =0;
+            if (allPointArray[pointSize-1-down+i+c][i+c]==1){
+                fiveArrayWhiteCount++;
+            }else if (allPointArray[pointSize-1-down+i+c][i+c]==2){
+                fiveArrayBlackCount++;
             }
+        }
+        countScore();
 
-            if (allPointArray[pointSize-1-down+i][i]==2){
-                upBlackCountSlantToRightBottom++;
-                if (upBlackCountSlantToRightBottom >=5){
-                    victor=true;
-                    if (mOnChessBoardListener!=null){
-                        mOnChessBoardListener.blackVictor();
-                    }
-                }
-            }else {
-                upBlackCountSlantToRightBottom =0;
+        for (int c=0;c<5;c++){
+            //down
+            if (allPointArray[i+c][pointSize-1-down+i+c]==1){
+                fiveArrayWhiteCount++;
+            }else if (allPointArray[i+c][pointSize-1-down+i+c]==2){
+                fiveArrayBlackCount++;
             }
+        }
+        countScore();
+    }
 
+    private void getScoreSlideToLeftBottom(int down, int i){
+
+        for (int c=0;c<5;c++){
+            //up
+            if (allPointArray[down-i-c][i+c]==1){
+                fiveArrayWhiteCount++;
+            }else if (allPointArray[down-i-c][i+c]==2){
+                fiveArrayBlackCount++;
+            }
         }
 
-        //down
-        if (allPointArray[i][pointSize-1-down+i]==1){
-            downWhiteCountSlantToRightBottom++;
-            if (downWhiteCountSlantToRightBottom >=5){
-                victor=true;
-                if (mOnChessBoardListener!=null){
-                    mOnChessBoardListener.whiteVictor();
-                }
-            }
-        }else {
-            downWhiteCountSlantToRightBottom =0;
-        }
+        countScore();
 
-        if (allPointArray[i][pointSize-1-down+i]==2){
-            downBlackCountSlantToRightBottom++;
-            if (downBlackCountSlantToRightBottom >=5){
-                victor=true;
-                if (mOnChessBoardListener!=null){
-                    mOnChessBoardListener.blackVictor();
-                }
+        for (int c=0;c<5;c++){
+            //down
+            if (allPointArray[pointSize-1-i-c][pointSize-1-down+i+c]==1){
+                fiveArrayWhiteCount++;
+            }else if (allPointArray[pointSize-1-i-c][pointSize-1-down+i+c]==2){
+                fiveArrayBlackCount++;
             }
-        }else {
-            downBlackCountSlantToRightBottom =0;
         }
-
+        countScore();
     }
 
     private void findXYVictor(){
@@ -435,6 +425,9 @@ public class ChessBoard extends View {
                     case 4:
                         blackResultScore=blackResultScore+800000;
                         break;
+                    case 5:
+                        blackResultScore=blackResultScore+8000000;
+                        break;
                 }
                 break;
             case 1:
@@ -455,6 +448,11 @@ public class ChessBoard extends View {
             case 4:
                 if (fiveArrayBlackCount ==0){
                     whiteResultScore=whiteResultScore+800000;
+                }
+                break;
+            case 5:
+                if (fiveArrayBlackCount ==0){
+                    whiteResultScore=whiteResultScore+8000000;
                 }
                 break;
         }
@@ -483,12 +481,11 @@ public class ChessBoard extends View {
         countScore();
     }
 
-    private void getSlantScore(int i,int j){
-        for (int down=4;down<pointSize-4;down++){
-            clearChessCount();
-            for (int c=0;c<=down-4;c++){
-                getScoreSlideToRightBottom(down, c);//slide from leftTop to rightBottom
-                //slideToLeftBottom(down, c);//slide from rightTop to leftBottom
+    private void getSlantScore() {
+        for (int down=4;down<pointSize;down++){
+            for (int i=0;i<=down-4;i++){
+                getScoreSlideToRightBottom(down, i);//slide from leftTop to rightBottom
+                getScoreSlideToLeftBottom(down, i);//slide from rightTop to leftBottom
             }
         }
     }
@@ -497,36 +494,56 @@ public class ChessBoard extends View {
         for (int i=0;i<pointSize-4;i++){
             for (int j=0;j<pointSize-4;j++){
                 getXYScore(i, j);
-
             }
         }
-        //getSlantScore(i,j);
+        getSlantScore();
     }
 
     private void intelligence(){
-        small=800000;
-
+        whiteBigger =0;
+        blackBigger =0;
         for (int i=0;i<pointSize;i++){
             for (int j=0;j<pointSize;j++){
                 if (allPointArray[i][j]==0){//Y
+                    allPointArray[i][j]=1;
+                    intelligenceGetScore();
+                    if (whiteBigger <whiteResultScore){
+                        whiteBigger =whiteResultScore;
+                        defensePoint[0]=i;
+                        defensePoint[1]=j;
+                        //Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
+                    }
                     allPointArray[i][j]=2;
                     intelligenceGetScore();
-                    if (small>whiteResultScore){
-                        small=whiteResultScore;
-                        testPoint[0]=i;
-                        testPoint[1]=j;
-                        //Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
+                    if (blackBigger<blackResultScore){
+                        blackBigger=blackResultScore;
+                    }
+                    if (blackBigger>800000&&whiteBigger<800000){
+                        attack=true;
+                        attackPoint[0]=i;
+                        attackPoint[1]=j;
                     }
                     allPointArray[i][j]=0;
                     clearChessCount();
                 }
                 if (allPointArray[j][i]==0){//X
+                    allPointArray[j][i]=1;
+                    intelligenceGetScore();
+                    if (whiteBigger <whiteResultScore){
+                        whiteBigger =whiteResultScore;
+                        defensePoint[0]=j;
+                        defensePoint[1]=i;
+                    }
+
                     allPointArray[j][i]=2;
                     intelligenceGetScore();
-                    if (small>whiteResultScore){
-                        small=whiteResultScore;
-                        testPoint[0]=j;
-                        testPoint[1]=i;
+                    if (blackBigger<blackResultScore){
+                        blackBigger=blackResultScore;
+                    }
+                    if (blackBigger>800000&&whiteBigger<800000){
+                        attack=true;
+                        attackPoint[0]=j;
+                        attackPoint[1]=i;
                     }
                     allPointArray[j][i]=0;
                     clearChessCount();
@@ -548,6 +565,7 @@ public class ChessBoard extends View {
                 break;
             case 1://ACTION_UP
                 clearChessCount();
+                attack=false;//defence
                 if (!victor){
                         getPosition();
                         if (allPointArray[point[0]][point[1]] > 0){
@@ -562,6 +580,7 @@ public class ChessBoard extends View {
                                         mOnChessBoardListener.number(whiteNumber,blackNumber);
                                     }
                                 }else {
+
                                     allPointArray[point[0]][point[1]]=2;
                                     colorWhite=!colorWhite;
                                     blackNumber++;
@@ -583,7 +602,11 @@ public class ChessBoard extends View {
                                     findVictor();
                                     if (!victor){
                                         intelligence();
-                                        allPointArray[testPoint[0]][testPoint[1]]=2;
+                                        if (attack){
+                                            allPointArray[attackPoint[0]][attackPoint[1]]=2;
+                                        }else {
+                                            allPointArray[defensePoint[0]][defensePoint[1]]=2;
+                                        }
                                         colorWhite=!colorWhite;
                                         blackNumber++;
                                         if (mOnChessBoardListener!=null){
@@ -592,8 +615,8 @@ public class ChessBoard extends View {
                                         invalidate();
                                         findVictor();
                                     }
-                                    Log.i(TAG, "test point: "+testPoint[0]+" "+testPoint[1]);
-                                    Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
+
+                                    //Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
                                     //intelligenceGetScore();
                                 }
 
