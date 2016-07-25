@@ -460,25 +460,37 @@ public class ChessBoard extends View {
         fiveArrayBlackCount =0;
     }
 
-    private void getXYScore(int i, int j){
-        //Y
-       for (int c=0;c<5;c++){
-          if (allPointArray[i][j+c]==1){//to get the white chess number in array
-              fiveArrayWhiteCount++;
-          }else if (allPointArray[i][j+c]==2){//to get the black chess number in array
-              fiveArrayBlackCount++;
-          }
-       }
-        countScore();
-        //X
-        for (int c=0;c<5;c++){
-            if (allPointArray[j+c][i]==1){//to get the white chess number in array
-                fiveArrayWhiteCount++;
-            }else if (allPointArray[j+c][i]==2){//to get the black chess number in array
-                fiveArrayBlackCount++;
+    private void getXYScore(){
+
+        for (int i=0;i<pointSize;i++){
+            for (int j=0;j<pointSize-4;j++){
+                //Y
+                for (int c=0;c<5;c++){
+                    if (allPointArray[i][j+c]==1){//to get the white chess number in array
+                        fiveArrayWhiteCount++;
+                    }else if (allPointArray[i][j+c]==2){//to get the black chess number in array
+                        fiveArrayBlackCount++;
+                    }
+                }
+                countScore();
+
+                //X
+                for (int c=0;c<5;c++){
+                    if (allPointArray[j+c][i]==1){//to get the white chess number in array
+                        fiveArrayWhiteCount++;
+                    }else if (allPointArray[j+c][i]==2){//to get the black chess number in array
+                        fiveArrayBlackCount++;
+                    }
+                }
+                countScore();
             }
         }
-        countScore();
+
+       /* for (int i=0;i<pointSize;i++){
+            for (int j=0;j<pointSize-4;j++){
+
+            }
+        }*/
     }
 
     private void getSlantScore() {
@@ -491,11 +503,7 @@ public class ChessBoard extends View {
     }
 
     private void intelligenceGetScore(){
-        for (int i=0;i<pointSize-4;i++){
-            for (int j=0;j<pointSize-4;j++){
-                getXYScore(i, j);
-            }
-        }
+        getXYScore();
         getSlantScore();
     }
 
