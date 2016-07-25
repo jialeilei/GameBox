@@ -24,7 +24,7 @@ public class ChessBoard extends View {
     private boolean colorWhite=true;
     private boolean victor =false;//是否有人获胜
     private int width;//边界
-    private int gameModel=0;
+    private int gameModel=0;//1:easy   2:common   3:difficult
     private int point[]={0,0};
     private OnChessBoardListener mOnChessBoardListener;
     //private int whiteBetter,blackBetter;
@@ -485,12 +485,6 @@ public class ChessBoard extends View {
                 countScore();
             }
         }
-
-       /* for (int i=0;i<pointSize;i++){
-            for (int j=0;j<pointSize-4;j++){
-
-            }
-        }*/
     }
 
     private void getSlantScore() {
@@ -528,9 +522,17 @@ public class ChessBoard extends View {
                         attackPoint[0]=i;
                         attackPoint[1]=j;
                     }
-                    if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
-                        attack=true;
+                    if (gameModel==2){
+                        //3   4   5
+                        if ((blackBigger>45000&&whiteBigger<1600000)||(blackBigger>1600000&&whiteBigger<8000000)||blackBigger>8000000){
+                            attack=true;
+                        }
+                    }else if(gameModel==1){
+                        if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
+                            attack=true;
+                        }
                     }
+
                     allPointArray[i][j]=0;
                     clearChessCount();
                 }
@@ -550,8 +552,18 @@ public class ChessBoard extends View {
                         attackPoint[0]=j;
                         attackPoint[1]=i;
                     }
-                    if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
+                    /*if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
                         attack=true;
+                    }*/
+                    if (gameModel==2){
+                        //3   4   5
+                        if ((blackBigger>45000&&whiteBigger<1600000)||(blackBigger>1600000&&whiteBigger<8000000)||blackBigger>8000000){
+                            attack=true;
+                        }
+                    }else if(gameModel==1){
+                        if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
+                            attack=true;
+                        }
                     }
                     allPointArray[j][i]=0;
                     clearChessCount();
@@ -562,8 +574,6 @@ public class ChessBoard extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x= ((int) event.getX());
-        float y=event.getY();
         positionX=event.getX();
         positionY=event.getY();
 
@@ -623,9 +633,6 @@ public class ChessBoard extends View {
                                         invalidate();
                                         findVictor();
                                     }
-
-                                    //Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
-                                    //intelligenceGetScore();
                                 }
 
                             }
