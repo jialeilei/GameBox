@@ -17,7 +17,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private static String TAG="MainActivity";
     ChessBoard chessBoard;
     TextView tvWhiteResult,tvBlackResult,tvWhite,tvBlack,tvTitle;
-    Button btnAgain,btnChangeModel;
+    Button btnAgain,btnModelPerson,btnModelEasy,btnModelCommon;
     ImageView imgSetting;
     Spinner spinnerSize;
     private int gameModel =0; // *person with person:0  *person with machine:1
@@ -35,8 +35,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
         btnAgain.setOnClickListener(this);
         imgSetting=(ImageView)findViewById(R.id.imgSetting);
         imgSetting.setOnClickListener(this);
-        btnChangeModel=(Button)findViewById(R.id.btnChangeModel);
-        btnChangeModel.setOnClickListener(this);
+        btnModelPerson=(Button)findViewById(R.id.btnModelPerson);
+        btnModelPerson.setOnClickListener(this);
+        btnModelEasy=(Button)findViewById(R.id.btnModelEasy);
+        btnModelEasy.setOnClickListener(this);
+        btnModelCommon=(Button)findViewById(R.id.btnModelCommon);
+        btnModelCommon.setOnClickListener(this);
         tvWhiteResult=(TextView)findViewById(R.id.tvWhiteResult);
         tvBlackResult=(TextView)findViewById(R.id.tvBlackResult);
         tvWhite=(TextView)findViewById(R.id.tvWhite);
@@ -102,27 +106,39 @@ public class MainActivity extends Activity implements View.OnClickListener{
         });
     }
 
+    private void reset(){
+        chessBoard.resetBoard();
+        tvWhite.setText(0 + "手");
+        tvBlack.setText(0 + "手");
+        tvBlackResult.setText("");
+        tvWhiteResult.setText("");
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAgain:
-                chessBoard.resetBoard();
-                tvWhite.setText(0 + "手");
-                tvBlack.setText(0 + "手");
-                tvBlackResult.setText("");
-                tvWhiteResult.setText("");
+                reset();
                 break;
             case R.id.imgSetting:
                 showDialog();
                 break;
-            case R.id.btnChangeModel:
-                if (gameModel ==0){
-                    gameModel=1;
-                    tvTitle.setText("人机对战");
-                }else {
-                    gameModel=0;
-                    tvTitle.setText("人人对战");
-                }
+            case R.id.btnModelPerson:
+
+                gameModel=0;
+                tvTitle.setText("人人对战");
+                chessBoard.setGameModel(gameModel);
+                break;
+            case R.id.btnModelEasy:
+
+                gameModel=1;
+                tvTitle.setText("简单模式");
+                chessBoard.setGameModel(gameModel);
+                break;
+            case R.id.btnModelCommon:
+
+                gameModel=2;
+                tvTitle.setText("一般模式");
                 chessBoard.setGameModel(gameModel);
                 break;
             default:

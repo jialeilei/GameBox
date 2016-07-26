@@ -579,7 +579,6 @@ public class ChessBoard extends View {
 
         switch (event.getAction()){
             case 0://ACTION_DOWN
-
                 break;
             case 1://ACTION_UP
                 clearChessCount();
@@ -608,7 +607,7 @@ public class ChessBoard extends View {
                                 }
                                 invalidate();
                                 findVictor();
-                            }else if (gameModel==1){ //person with machine
+                            }else { //person with machine
                                 if (colorWhite){
                                     allPointArray[point[0]][point[1]]=1;
                                     colorWhite=!colorWhite;
@@ -652,8 +651,8 @@ public class ChessBoard extends View {
         void blackVictor();
         void number(int white,int black);
     }
+
     public void setOnChessBoardListener(OnChessBoardListener onChessBoardListener){
         this.mOnChessBoardListener=onChessBoardListener;
-
     }
 }

@@ -91,10 +91,20 @@
                 android:layout_height="wrap_content"
                 android:text="再来一局"/>
             <Button
-                android:id="@+id/btnChangeModel"
+                android:id="@+id/btnModelPerson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="切换模式"/>
+                android:text="人人"/>
+            <Button
+                android:id="@+id/btnModelEasy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="简单"/>
+            <Button
+                android:id="@+id/btnModelCommon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="一般"/>
         </LinearLayout>
 
     </RelativeLayout>
