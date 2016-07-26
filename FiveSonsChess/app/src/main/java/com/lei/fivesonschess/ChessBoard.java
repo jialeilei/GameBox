@@ -517,6 +517,15 @@ public class ChessBoard extends View {
                         defensePoint[1]=j;
                         //Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
                     }
+                    allPointArray[i][j]=0;
+                    clearChessCount();
+                }
+            }
+        }
+
+        for (int i=0;i<pointSize;i++){
+            for (int j=0;j<pointSize;j++){
+                if (allPointArray[i][j]==0){//Y
                     allPointArray[i][j]=2;
                     whiteResultScore=0;
                     blackResultScore=0;
@@ -530,10 +539,16 @@ public class ChessBoard extends View {
                         //3   4   5
                         if ((blackBigger>45000&&whiteBigger<800000)||(blackBigger>1600000&&whiteBigger<8000000)||blackBigger>8000000){
                             attack=true;
+                            //Log.i(TAG, "true : ");
+                        }else {
+                            //Log.i(TAG, "attack  : ");
+                            attack=false;
                         }
                     }else if(gameModel==1){
                         if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
                             attack=true;
+                        }else {
+                            attack=false;
                         }
                     }
                     allPointArray[i][j]=0;
@@ -541,6 +556,7 @@ public class ChessBoard extends View {
                 }
             }
         }
+        Log.i(TAG, "white: "+whiteBigger+"  black: "+blackBigger);
     }
 
     @Override
