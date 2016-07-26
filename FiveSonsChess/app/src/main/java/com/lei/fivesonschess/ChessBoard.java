@@ -508,6 +508,8 @@ public class ChessBoard extends View {
             for (int j=0;j<pointSize;j++){
                 if (allPointArray[i][j]==0){//Y
                     allPointArray[i][j]=1;
+                    whiteResultScore=0;
+                    blackResultScore=0;
                     intelligenceGetScore();
                     if (whiteBigger <whiteResultScore){
                         whiteBigger =whiteResultScore;
@@ -516,6 +518,8 @@ public class ChessBoard extends View {
                         //Log.i(TAG, "whiteScore: " + whiteResultScore + " blackScore: " + blackResultScore);
                     }
                     allPointArray[i][j]=2;
+                    whiteResultScore=0;
+                    blackResultScore=0;
                     intelligenceGetScore();
                     if (blackBigger<blackResultScore){
                         blackBigger=blackResultScore;
@@ -524,7 +528,7 @@ public class ChessBoard extends View {
                     }
                     if (gameModel==2){
                         //3   4   5
-                        if ((blackBigger>45000&&whiteBigger<1600000)||(blackBigger>1600000&&whiteBigger<8000000)||blackBigger>8000000){
+                        if ((blackBigger>45000&&whiteBigger<800000)||(blackBigger>1600000&&whiteBigger<8000000)||blackBigger>8000000){
                             attack=true;
                         }
                     }else if(gameModel==1){
@@ -532,40 +536,7 @@ public class ChessBoard extends View {
                             attack=true;
                         }
                     }
-
                     allPointArray[i][j]=0;
-                    clearChessCount();
-                }
-                if (allPointArray[j][i]==0){//X
-                    allPointArray[j][i]=1;
-                    intelligenceGetScore();
-                    if (whiteBigger <whiteResultScore){
-                        whiteBigger =whiteResultScore;
-                        defensePoint[0]=j;
-                        defensePoint[1]=i;
-                    }
-
-                    allPointArray[j][i]=2;
-                    intelligenceGetScore();
-                    if (blackBigger<blackResultScore){
-                        blackBigger=blackResultScore;
-                        attackPoint[0]=j;
-                        attackPoint[1]=i;
-                    }
-                    /*if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
-                        attack=true;
-                    }*/
-                    if (gameModel==2){
-                        //3   4   5
-                        if ((blackBigger>45000&&whiteBigger<1600000)||(blackBigger>1600000&&whiteBigger<8000000)||blackBigger>8000000){
-                            attack=true;
-                        }
-                    }else if(gameModel==1){
-                        if ((blackBigger>800000&&whiteBigger<800000)||blackBigger>8000000){
-                            attack=true;
-                        }
-                    }
-                    allPointArray[j][i]=0;
                     clearChessCount();
                 }
             }

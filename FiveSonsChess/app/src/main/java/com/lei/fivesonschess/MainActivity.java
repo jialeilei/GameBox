@@ -128,18 +128,21 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 gameModel=0;
                 tvTitle.setText("人人对战");
                 chessBoard.setGameModel(gameModel);
+                reset();
                 break;
             case R.id.btnModelEasy:
 
                 gameModel=1;
                 tvTitle.setText("简单模式");
                 chessBoard.setGameModel(gameModel);
+                reset();
                 break;
             case R.id.btnModelCommon:
 
                 gameModel=2;
                 tvTitle.setText("一般模式");
                 chessBoard.setGameModel(gameModel);
+                reset();
                 break;
             default:
                 break;
