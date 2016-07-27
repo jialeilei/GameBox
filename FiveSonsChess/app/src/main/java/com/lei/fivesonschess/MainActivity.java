@@ -72,6 +72,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
 
             @Override
+            public void equal() {
+                Toast.makeText(MainActivity.this, "棋盘已满，平局", Toast.LENGTH_LONG).show();
+                tvWhiteResult.setTextColor(Color.RED);
+                tvWhiteResult.setText("平局");
+                tvBlackResult.setTextColor(Color.GREEN);
+                tvBlackResult.setText("平局");
+            }
+
+            @Override
             public void number(int white, int black) {
                 tvWhite.setText( white + "手");
                 tvBlack.setText( black + "手");

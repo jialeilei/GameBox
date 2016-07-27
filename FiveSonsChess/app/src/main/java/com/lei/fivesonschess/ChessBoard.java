@@ -388,6 +388,7 @@ public class ChessBoard extends View {
                 getXYBlack(i, j);
             }
         }
+
     }
 
     private void findSlantVictor(){
@@ -556,6 +557,12 @@ public class ChessBoard extends View {
                 }
             }
         }
+        if (whiteBigger==0&&blackBigger==0){
+            if (mOnChessBoardListener!=null){
+                mOnChessBoardListener.equal();
+            }
+            victor=true;
+        }
         Log.i(TAG, "white: "+whiteBigger+"  black: "+blackBigger);
     }
 
@@ -636,6 +643,7 @@ public class ChessBoard extends View {
     public interface OnChessBoardListener{
         void whiteVictor();
         void blackVictor();
+        void equal();
         void number(int white,int black);
     }
 
