@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
         <ImageView
-            android:id="@+id/imgSetting"
+            android:id="@+id/imgLeft"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/icon_setting"/>
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/slide"/>
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
@@ -25,6 +25,13 @@
             android:textSize="25sp"
             android:textColor="#ffffff"
             android:text="五子棋"/>
+        <ImageView
+            android:id="@+id/imgSetting"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/icon_setting"/>
     </RelativeLayout>
 
 </RelativeLayout>

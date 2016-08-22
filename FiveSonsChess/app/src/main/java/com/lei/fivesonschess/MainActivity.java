@@ -2,11 +2,16 @@ package com.lei.fivesonschess;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -14,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener{
+    //five
     private static String TAG="MainActivity";
     ChessBoard chessBoard;
     TextView tvWhiteResult,tvBlackResult,tvWhite,tvBlack,tvTitle;
@@ -21,6 +27,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
     ImageView imgSetting;
     Spinner spinnerSize;
     private int gameModel =0; // *person with person:0  *person with machine:1
+    //2048
+    Button btnJump;
+
+    //others
+    ImageView imgSlide;
+    DrawerLayout drawerLayout;
 
 
     @Override
@@ -31,6 +43,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     private void initView(){
+        //透明状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        btnJump = (Button) findViewById(R.id.btnJump);
+        btnJump.setOnClickListener(this);
+        imgSlide = (ImageView) findViewById(R.id.imgLeft);
+        imgSlide.setOnClickListener(this);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
         btnAgain=(Button)findViewById(R.id.btnAgain);
         btnAgain.setOnClickListener(this);
         imgSetting=(ImageView)findViewById(R.id.imgSetting);
@@ -152,6 +174,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 tvTitle.setText("一般模式");
                 chessBoard.setGameModel(gameModel);
                 reset();
+                break;
+            case R.id.btnJump:
+                Intent intent = new Intent(MainActivity.this,NumberGameActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.imgLeft:
+                drawerLayout.openDrawer(Gravity.LEFT);
                 break;
             default:
                 break;
