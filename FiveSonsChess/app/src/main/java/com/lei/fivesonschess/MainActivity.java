@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -18,10 +17,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lei.fivesonschess.game.FiveSonsGame;
+
 public class MainActivity extends Activity implements View.OnClickListener{
     //five
     private static String TAG="MainActivity";
-    ChessBoard chessBoard;
+    FiveSonsGame chessBoard;
     TextView tvWhiteResult,tvBlackResult,tvWhite,tvBlack,tvTitle;
     Button btnAgain,btnModelPerson,btnModelEasy,btnModelCommon;
     ImageView imgSetting;
@@ -71,10 +72,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 
 
-        chessBoard=(ChessBoard)findViewById(R.id.keyBoard);
+        chessBoard=(FiveSonsGame)findViewById(R.id.keyBoard);
         chessBoard.setEnabled(false);
         chessBoard.setFocusable(false);
-        chessBoard.setOnChessBoardListener(new ChessBoard.OnChessBoardListener() {
+        chessBoard.setOnChessBoardListener(new FiveSonsGame.OnChessBoardListener() {
             @Override
             public void whiteVictor() {
                 Toast.makeText(MainActivity.this, "白方胜利", Toast.LENGTH_LONG).show();

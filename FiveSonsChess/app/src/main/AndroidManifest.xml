@@ -16,7 +16,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NumberGameActivity"></activity>
+        <activity android:name=".NumberGameActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>

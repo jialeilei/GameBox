@@ -127,7 +127,7 @@
             android:layout_marginBottom="20dp"
             android:layout_alignParentBottom="true"
             android:gravity="center">
-            <com.lei.fivesonschess.ChessBoard
+            <com.lei.fivesonschess.game.FiveSonsGame
                 android:id="@+id/keyBoard"
                 android:layout_width="300dp"
                 android:layout_height="300dp"

@@ -1,4 +1,4 @@
-package com.lei.fivesonschess;
+package com.lei.fivesonschess.game;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,7 +13,7 @@ import android.view.View;
  * Created by lei on 2016/7/3.
  */
 
-public class ChessBoard extends View {
+public class FiveSonsGame extends View {
     private static String TAG="ChessBoard";
     private int maxX,xOffset,distance;
     private int pointSize=13;
@@ -41,11 +41,11 @@ public class ChessBoard extends View {
     private boolean attack=false;
 
 
-    public ChessBoard(Context context) {
+    public FiveSonsGame(Context context) {
         this(context, null);
     }
 
-    public ChessBoard(Context context, AttributeSet attrs) {
+    public FiveSonsGame(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
     }
