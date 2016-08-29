@@ -6,9 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
-
 import com.lei.fivesonschess.NumberGameActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +18,7 @@ public class NumberGame extends GridLayout{
     private static String TAG = "NumberGame";
     private Card[][] cardsMap = new Card[4][4];
     private List<Point> emptyPoints = new ArrayList<Point>();
+    OnResultListener onResultListener = null;
 
     public NumberGame(Context context) {
         super(context);
@@ -120,10 +119,6 @@ public class NumberGame extends GridLayout{
         });
     }
 
-
-
-
-
     private void swipeLeft(){
         boolean merge = false;
         for (int y = 0; y < 4; y++) {
@@ -148,8 +143,10 @@ public class NumberGame extends GridLayout{
         }
         if (merge) {
             addRandomNum();
+            checkComplete();
         }
     }
+
     private void swipeRight(){
         boolean merge = false;
         for (int y = 0; y < 4; y++) {
@@ -174,6 +171,7 @@ public class NumberGame extends GridLayout{
         }
         if (merge) {
             addRandomNum();
+            checkComplete();
         }
 
     }
@@ -202,6 +200,7 @@ public class NumberGame extends GridLayout{
         }
         if (merge){
             addRandomNum();
+            checkComplete();
         }
     }
 
@@ -229,7 +228,38 @@ public class NumberGame extends GridLayout{
         }
         if (merge) {
             addRandomNum();
+            checkComplete();
         }
+    }
+
+    public void checkComplete(){
+        boolean complete = true;
+        for (int y = 0; y < 5; y++) {
+            for (int x = 0; x < 4; x++) {
+                if (cardsMap[x][y].getNum()<=0 ||
+                        (x>0&&cardsMap[x][y].equals(cardsMap[x-1][y]))||
+                        (x<3&&cardsMap[x][y].equals(cardsMap[x+1][y]))||
+                        (y>0&&cardsMap[x][y].equals(cardsMap[x][y-1]))||
+                        (y<3&&cardsMap[x][y].equals(cardsMap[x][y+1]))){
+                    complete = false;
+                }
+            }
+        }
+        if (complete){
+            if (onResultListener!=null){
+                onResultListener.complete();
+
+            }
+
+        }
+    }
+
+    public interface OnResultListener{
+        void complete();
+    }
+
+    public void setOnResultListener(OnResultListener onResultListener1){
+        this.onResultListener = onResultListener1;
     }
 
 }
