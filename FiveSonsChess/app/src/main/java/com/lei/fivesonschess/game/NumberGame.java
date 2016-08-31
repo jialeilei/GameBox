@@ -130,7 +130,8 @@ public class NumberGame extends GridLayout{
 
             }
         }
-    }
+    }//动态设置卡片颜色
+    
 
     private void initGameView(){
         setColumnCount(4);//指定4列
