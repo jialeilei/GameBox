@@ -26,6 +26,10 @@ public class Card extends FrameLayout {
         setNum(0);
     }
 
+    public void setColor(int color){
+        label.setBackgroundColor(color);
+    }
+
     public boolean equals(Card o) {
         return getNum() == o.getNum();
     }

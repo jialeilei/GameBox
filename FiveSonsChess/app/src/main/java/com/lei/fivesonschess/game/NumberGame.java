@@ -68,7 +68,6 @@ public class NumberGame extends GridLayout{
     }
 
     private void addRandomNum(){
-
         emptyPoints.clear();
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
@@ -80,6 +79,57 @@ public class NumberGame extends GridLayout{
 
         Point p = emptyPoints.remove((int)(Math.random()*emptyPoints.size()));//生成随机点
         cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
+
+        setColor();
+
+    }
+
+    private void setColor(){
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                int number = cardsMap[x][y].getNum();
+                if (cardsMap[x][y].getNum() < 2048){
+                    switch (number){
+                        case 0:
+                            cardsMap[x][y].setColor(0x33ffffff);
+                            break;
+                        case 2:
+                            cardsMap[x][y].setColor(0xffffd398);
+                            break;
+                        case 4:
+                            cardsMap[x][y].setColor(0xffffae89);
+                            break;
+                        case 8:
+                            cardsMap[x][y].setColor(0xffffac69);
+                            break;
+                        case 16:
+                            cardsMap[x][y].setColor(0xffff9c69);
+                            break;
+                        case 32:
+                            cardsMap[x][y].setColor(0xffff8c69);
+                            break;
+                        case 64:
+                            cardsMap[x][y].setColor(0xffff8247);
+                            break;
+                        case 128:
+                            cardsMap[x][y].setColor(0xffff7755);
+                            break;
+                        case 256:
+                            cardsMap[x][y].setColor(0xffff7256);
+                            break;
+                        case 512:
+                            cardsMap[x][y].setColor(0xffff6347);
+                            break;
+                        case 1024:
+                            cardsMap[x][y].setColor(0xffff5500);
+                            break;
+                    }
+                }else {
+                    cardsMap[x][y].setColor(0xffff4500);
+                }
+
+            }
+        }
     }
 
     private void initGameView(){
@@ -234,7 +284,7 @@ public class NumberGame extends GridLayout{
 
     public void checkComplete(){
         boolean complete = true;
-        for (int y = 0; y < 5; y++) {
+        for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 if (cardsMap[x][y].getNum()<=0 ||
                         (x>0&&cardsMap[x][y].equals(cardsMap[x-1][y]))||
@@ -248,7 +298,6 @@ public class NumberGame extends GridLayout{
         if (complete){
             if (onResultListener!=null){
                 onResultListener.complete();
-
             }
 
         }
